@@ -22,7 +22,16 @@ const getProductId = async (req, res) => {
   return res.status(200).json(rows[0]);
 };
 
+const createProduct = async (req, res) => {
+  const { name } = req.body;
+
+  const newProduct = await productsService.createProduct({ name });
+
+  return res.status(201).json(newProduct);
+};
+
 module.exports = {
   getAllProducts,
   getProductId,
+  createProduct,
 };
