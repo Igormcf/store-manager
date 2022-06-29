@@ -8,7 +8,7 @@ const getProducts = async (id = null) => {
   }
 
   const allProducts = await productsModel.getAllProducts();
-
+  
   const sortedProducts = allProducts.sort((a, b) => a.id - b.id);
   
   return sortedProducts;
