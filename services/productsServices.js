@@ -23,7 +23,17 @@ const createProduct = async ({ name }) => {
   };
 };
 
+const updateProduct = async (id, name) => {
+  await productsModel.updateProduct(id, name);
+
+  return {
+    id,
+    name,
+  };
+};
+
 module.exports = {
   getProducts,
   createProduct,
+  updateProduct,
 };
