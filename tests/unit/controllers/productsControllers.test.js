@@ -149,7 +149,7 @@ describe('Busca todos os produtos no BD', () => {
 
 describe('Testa a função createProduct', () => {
 
-  describe('Quando é informado um nome válido', () => {
+  describe('Quando é informado um nome válido', async () => {
     const request = {};
     const response = {};
 
@@ -171,14 +171,73 @@ describe('Testa a função createProduct', () => {
       expect(response.status.calledWith(201)).to.be.equal(true);
     });
 
-    it('é chamado o método "json" passando um objeto', async () => {
+    it('É chamado o método "json" passando um objeto', async () => {
       await productsController.createProduct(request, response);
 
       expect(response.json.calledWith(sinon.match.object)).to.be.true;
     });
   });
+});
 
-  describe('Quando é informado um nome válido', () => {
+describe('Testa os retornos da função updateProduct', () => {
 
+  describe('Quando não encontra o produto no BD', async () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.params = { id: 10 };
+      request.body = { "name": "naruto" };
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(productsService, 'updateProduct').resolves({ id: "10", name: "naruto" });
+    });
+
+    after(() => {
+      productsService.updateProduct.restore();
+    });
+
+    it('é chamado o método "status" passando o código 404', async () => {
+      await productsController.updateProduct(request, response);
+
+      expect(response.status.calledWith(404)).to.be.equal(true);
+    });
+
+    it('é chamado o método "json" passando um objeto', async () => {
+      await productsController.updateProduct(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
   });
-})
+
+  describe('Quando encontra e edita um produto no BD', async () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.params = { id: 1 };
+      request.body = { "name": "naruto" };
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(productsService, 'updateProduct').resolves({ id: "1", name: "naruto" });
+    });
+
+    after(() => {
+      productsService.updateProduct.restore();
+    });
+
+    it('é chamado o método "status" passando o código 200', async () => {
+      await productsController.updateProduct(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método "json" passando um objeto', async () => {
+      await productsController.updateProduct(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+  });
+});

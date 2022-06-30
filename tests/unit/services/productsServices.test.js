@@ -159,3 +159,62 @@ describe('Testa a função createProduct', () => {
     });
   });
 });
+
+describe('Testa a função updateProduct', () => {
+
+  describe('Quando o novo nome é inválido', () => {
+    before(() => {
+      sinon.stub(productsModel, 'updateProduct').resolves([{}]);
+    });
+
+    after(() => {
+      productsModel.updateProduct.restore();
+    });
+
+    it('Retorna um objeto', async () => {
+      const result = await productsService.updateProduct(1, "nar");
+
+      expect(result).to.be.a('object');
+    });
+
+    it('O objeto está vazio', async () => {
+      const result = await productsService.updateProduct(1, "nar");
+
+      expect(result).to.be.not.empty;
+    });
+
+    it('O objeto não contém o novo nome', async () => {
+      const result = await productsService.updateProduct(1, "nar");
+
+      expect(result).to.be.not.equal({ id: 1, name: "nar" });
+    });
+  });
+
+  describe('Quando o novo nome é válido', () => {
+    before(() => {
+      sinon.stub(productsModel, 'updateProduct').resolves([{ id: 1, name: "naruto" }]);
+    });
+
+    after(() => {
+      productsModel.updateProduct.restore();
+    });
+
+    it('Retorna um objeto', async () => {
+      const result = await productsService.updateProduct(1, "naruto");
+
+      expect(result).to.be.a('object');
+    });
+
+    it('O objeto não está vazio', async () => {
+      const result = await productsService.updateProduct(1, "naruto");
+
+      expect(result).to.be.not.empty;
+    });
+
+    it('O objeto contém o novo nome', async () => {
+      const result = await productsService.updateProduct(1, "naruto");
+
+      expect(result).to.be.not.equal({ id: 1, name: "naruto" });
+    });
+  });
+})

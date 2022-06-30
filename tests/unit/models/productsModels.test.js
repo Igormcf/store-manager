@@ -164,3 +164,31 @@ describe('Testa quando é criado um novo produto', () => {
 
   });
 });
+
+describe('Testa quando edita um produto', () => {
+
+  before(() => {
+    sinon.stub(connection, 'execute').resolves([{
+      "id": 1,
+      "name": "Machado do Thor Stormbreaker" }]);
+  });
+
+  after(() => {
+    connection.execute.restore();
+  });
+
+  describe('Quando não é informado um nome válido', () => {
+
+    it('Não retorna undefined', async () => {
+      const result = await productsModel.updateProduct(1, "naruto");
+
+      expect(result).to.be.not.equal(undefined);
+    });
+
+    it('O objeto está vazio', async () => {
+      const result = await productsModel.updateProduct(1, "naruto");
+
+      expect(result).to.be.not.empty;
+    });
+  });
+});
