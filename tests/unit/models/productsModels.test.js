@@ -108,3 +108,59 @@ describe('Procura um produto pelo id', () => {
     
   });
 });
+
+describe('Testa quando não é criado um novo produto', () => {
+  before(() => {
+    sinon.stub(connection, 'execute').resolves([{ id: "" }]);
+  }); 
+
+  after(() => {
+    connection.execute.restore();
+  });
+  
+  describe('Quando não é informado um nome válido', () => {
+    const name = {
+      "name": "na"
+    }; 
+    it('retorna um obejto', async () => {
+      const result = await productsModel.createProduct(name);
+
+      expect(result).to.be.a('object');
+    });
+
+    it('o objeto não contém um valor para a chave id', async () => {
+      const result = await productsModel.createProduct(name);
+
+      expect(result.id).to.be.equal(undefined);
+    });
+
+  });
+});
+
+describe('Testa quando é criado um novo produto', () => {
+  before(() => {
+    sinon.stub(connection, 'execute').resolves([{ id: "4" }]);
+  });
+
+  after(() => {
+    connection.execute.restore();
+  });
+
+  describe('Quando é informado um nome válido', () => {
+    const name = {
+      "name": "naruto"
+    }
+    it('retorna um obejto', async () => {
+      const result = await productsModel.createProduct(name);
+
+      expect(result).to.be.a('object');
+    });
+
+    it('o objeto contém um valor para a chave id', async () => {
+      const result = await productsModel.createProduct(name);
+
+      expect(result.id).to.include.members;
+    });
+
+  });
+});

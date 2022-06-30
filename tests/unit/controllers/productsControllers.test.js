@@ -123,7 +123,7 @@ describe('Busca todos os produtos no BD', () => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
 
-        sinon.stub(productsService, 'getProducts').resolves(result);
+        sinon.stub(productsService, 'getProducts').resolves([result]);
       });
 
       after(() => {
@@ -146,3 +146,39 @@ describe('Busca todos os produtos no BD', () => {
 
   });
 });
+
+describe('Testa a função createProduct', () => {
+
+  describe('Quando é informado um nome válido', () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.body = { "name": "naruto" };
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(productsService, 'createProduct').resolves({ id: "4", name: "naruto" });
+    });
+
+    after(() => {
+      productsService.createProduct.restore();
+    });
+
+    it('é chamado o método "status" passando o código 201', async () => {
+      await productsController.createProduct(request, response);
+
+      expect(response.status.calledWith(201)).to.be.equal(true);
+    });
+
+    it('é chamado o método "json" passando um objeto', async () => {
+      await productsController.createProduct(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.true;
+    });
+  });
+
+  describe('Quando é informado um nome válido', () => {
+
+  });
+})

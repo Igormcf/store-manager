@@ -12,6 +12,6 @@ router.get('/', rescue(productsController.getAllProducts));
 
 router.get('/:id', rescue(productsController.getProductId));
 
-router.post('/', validMiddleWare, productsController.createProduct);
+router.post('/', validMiddleWare, rescue(productsController.createProduct));
 
 module.exports = router;

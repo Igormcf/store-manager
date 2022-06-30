@@ -96,3 +96,66 @@ describe('Procura um produto pelo id', () => {
   });
 });
 
+describe('Testa a função createProduct', () => {
+
+  describe('Quando não é informado um nome válido', () => {
+
+    before(() => {
+      sinon.stub(productsModel, 'createProduct').resolves({ id: "" });
+    });
+
+    after(() => {
+      productsModel.createProduct.restore();
+    });
+
+    const name = {
+      "name": "na"
+    };
+
+    it('retorna um obejto', async () => {
+
+      const result = await productsService.createProduct(name);
+
+      expect(result).to.be.a('object');
+    });
+
+    it('o objeto não contém um valor para a chave id', async () => {
+      const result = await productsService.createProduct(name);
+
+      expect(result.id).to.be.equal("");
+    });
+  });
+
+  describe('Quando é informado um nome válido', () => {
+    before(() => {
+      sinon.stub(productsModel, 'createProduct').resolves({ id: 4 });
+    });
+
+    after(() => {
+      productsModel.createProduct.restore();
+    });
+
+    const name = {
+      "name": "naruto"
+    };
+
+    it('retorna um obejto', async () => {
+
+      const result = await productsService.createProduct(name);
+
+      expect(result).to.be.a('object');
+    });
+
+    it('o objeto contém um valor para a chave id', async () => {
+      const result = await productsService.createProduct(name);
+
+      expect(result.id).to.be.equal(4);
+    });
+
+    it('o objeto contém a chave "name"', async () => {
+      const result = await productsService.createProduct(name);
+
+      expect(result).to.include.keys("name")
+    });
+  });
+});
