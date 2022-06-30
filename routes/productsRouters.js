@@ -16,4 +16,6 @@ router.post('/', validMiddleWare, rescue(productsController.createProduct));
 
 router.put('/:id', validMiddleWare, rescue(productsController.updateProduct));
 
+router.delete('/:id', rescue(productsController.deletProduct));
+
 module.exports = router;
