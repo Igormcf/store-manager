@@ -35,6 +35,8 @@ const updateProduct = async (id, name) => {
 const deletProduct = async (id) => {
   const result = await productsModel.deletProduct(id);
 
+  if (result === null) return null;
+  
   return result;
 };
 

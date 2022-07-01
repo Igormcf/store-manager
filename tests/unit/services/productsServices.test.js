@@ -217,4 +217,40 @@ describe('Testa a função updateProduct', () => {
       expect(result).to.be.not.equal({ id: 1, name: "naruto" });
     });
   });
-})
+});
+
+describe('Testa quando não deleta um produto', () => {
+
+  describe('Quando não é informado um id válido', () => {
+    before(() => {
+      sinon.stub(productsModel, 'deletProduct').resolves(null);
+    });
+
+    after(() => {
+      productsModel.deletProduct.restore();
+    });
+    it('retorna null', async () => {
+      const result = await productsService.deletProduct(10);
+
+      expect(result).to.be.equal(null);
+    });
+  });
+});
+
+describe('Testa quando deleta um produto', () => {
+
+  describe('Quando é informado um id válido', () => {
+    before(() => {
+      sinon.stub(productsModel, 'deletProduct').resolves(1);
+    });
+
+    after(() => {
+      productsModel.deletProduct.restore();
+    });
+    it('retorna o valor da chave affectedRows', async () => {
+      const result = await productsService.deletProduct(3);
+
+      expect(result).to.be.equal(1);
+    });
+  });
+});

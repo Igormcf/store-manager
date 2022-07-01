@@ -185,10 +185,50 @@ describe('Testa quando edita um produto', () => {
       expect(result).to.be.not.equal(undefined);
     });
 
-    it('O objeto está vazio', async () => {
+    it('O objeto não está vazio', async () => {
       const result = await productsModel.updateProduct(1, "naruto");
 
       expect(result).to.be.not.empty;
+    });
+  });
+});
+
+describe('Testa quando não deleta um produto', () => {
+
+  before(() => {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 0 }]);
+  });
+
+  after(() => {
+    connection.execute.restore();
+  });
+
+  describe('Quando não é informado um id válido', () => {
+
+    it('retorna um objeto', async () => {
+      const result = await productsModel.deletProduct(10);
+
+      expect(result).to.be.equal(null);
+    });
+  });
+});
+
+describe('Testa quando deleta um produto', () => {
+
+  before(() => {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+  });
+
+  after(() => {
+    connection.execute.restore();
+  });
+
+  describe('Quando é informado um id válido', () => {
+
+    it('retorna o valor da chave affectedRows', async () => {
+      const result = await productsModel.deletProduct(2);
+
+      expect(result).to.be.equal(1);
     });
   });
 });

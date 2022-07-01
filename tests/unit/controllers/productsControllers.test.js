@@ -241,3 +241,60 @@ describe('Testa os retornos da função updateProduct', () => {
     });
   });
 });
+
+describe('Testa quando não deleta um produto', () => {
+
+  describe('Quando não é informado um id válido', () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.params = { id: 10 };
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(productsService, 'deletProduct').resolves({});
+    });
+
+    after(() => {
+      productsService.deletProduct.restore();
+    });
+
+    it('é chamado o método "status" passando o código 404', async () => {
+      await productsController.deletProduct(request, response);
+
+      expect(response.status.calledWith(404)).to.be.equal(true);
+    });
+
+    it('é chamado o método "json" passando um objeto', async () => {
+      await productsController.deletProduct(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+  });
+});
+
+describe('Testa quando deleta um produto', () => {
+
+  describe('Quando não é informado um id válido', async () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.params = { id: 1 };
+      response.status = sinon.stub().returns(response);
+      response.end = sinon.stub();
+      sinon.stub(productsService, 'deletProduct').resolves(1);
+    });
+
+    after(() => {
+      productsService.deletProduct.restore();
+    });
+
+    it('é chamado o método "status" passando o código 204', async () => {
+      await productsController.deletProduct(request, response);
+      console.log(response);
+      expect(response.status.calledWith(204)).to.be.equal(true);
+    });
+  });
+});
