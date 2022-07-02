@@ -3,5 +3,6 @@ module.exports = {
   "testSequencer": "<rootDir>/__tests__/_testSequencer.js",
   "testMatch": [
     "**/__tests__/*.test.js"
-  ]
+  ],
+  "testTimeout": 20000
 }

@@ -15,6 +15,8 @@ app.get('/', (_request, response) => {
 
 app.use('/products', routes.productsRouters);
 
+app.use('/sales', routes.salesRouters);
+
 app.use(middleWareError);
 
 // não remova essa exportação, é para o avaliador funcionar
