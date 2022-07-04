@@ -6,8 +6,8 @@ const rescue = require('express-rescue');
 
 const salesController = require('../controllers/salesControllers');
 
-const validJoi = require('../middlewares/validJoi');
+const validSale = require('../middlewares/validSale');
 
-router.post('/', validJoi.validSale, rescue(salesController.createSales));
+router.post('/', validSale, rescue(salesController.createSales));
 
 module.exports = router;
