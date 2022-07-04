@@ -15,7 +15,6 @@ const createSaleProduct = async (saleProduct) => {
     .execute('SELECT id FROM StoreManager.sales ORDER BY id DESC LIMIT 1');
 
   const idSale = Object.values(lastId[0]);
-  console.log(idSale, 'idSale');
 
   return {
     id: idSale[0],
@@ -23,6 +22,13 @@ const createSaleProduct = async (saleProduct) => {
   };
 };
 
+/* const getSaleId = async (id) => {
+  const [saleId] = await connection.execute('SELECT * FROM StoreManager.sales WHERE id = ?', [id]);
+
+  return saleId;
+}; */
+
 module.exports = {
   createSaleProduct,
+  /* getSaleId, */
 };
