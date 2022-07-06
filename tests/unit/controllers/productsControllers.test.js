@@ -293,7 +293,7 @@ describe('Testa quando deleta um produto', () => {
 
     it('é chamado o método "status" passando o código 204', async () => {
       await productsController.deletProduct(request, response);
-      console.log(response);
+
       expect(response.status.calledWith(204)).to.be.equal(true);
     });
   });

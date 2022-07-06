@@ -149,7 +149,7 @@ describe('Busca as vendas no BD', () => {
 
   });
 
-  describe('Procura um produto pelo id', () => {
+  describe('Procura uma venda pelo id', () => {
 
     describe('quando o id informado não é encontrado', async () => {
       const request = {};
@@ -216,5 +216,62 @@ describe('Busca as vendas no BD', () => {
 
     });
 
+  });
+});
+
+describe('Testa quando não deleta uma venda', () => {
+
+  describe('Quando não é informado um id válido', () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.params = { id: 10 };
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(saleService, 'deleteSale').resolves({});
+    });
+
+    after(() => {
+      saleService.deleteSale.restore();
+    });
+
+    it('é chamado o método "status" passando o código 404', async () => {
+      await saleController.deleteSale(request, response);
+
+      expect(response.status.calledWith(404)).to.be.equal(true);
+    });
+
+    it('é chamado o método "json" passando um objeto', async () => {
+      await saleController.deleteSale(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+  });
+});
+
+describe('Testa quando deleta uma venda', () => {
+
+  describe('Quando não é informado um id válido', async () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.params = { id: 1 };
+      response.status = sinon.stub().returns(response);
+      response.end = sinon.stub();
+      sinon.stub(saleService, 'deleteSale').resolves(1);
+    });
+
+    after(() => {
+      saleService.deleteSale.restore();
+    });
+
+    it('é chamado o método "status" passando o código 204', async () => {
+      await saleController.deleteSale(request, response);
+  
+      expect(response.status.calledWith(204)).to.be.equal(true);
+    });
   });
 });

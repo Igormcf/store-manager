@@ -32,7 +32,16 @@ const getSales = async (id = null) => {
   return allSales;
 };
 
+const deleteSale = async (id) => {
+  const result = await salesModel.deleteSale(id);
+
+  if (result === null) return null;
+
+  return result;
+};
+
 module.exports = {
   createSales,
   getSales,
+  deleteSale,
 };

@@ -167,3 +167,39 @@ describe('Procura uma venda pelo id', () => {
 
   });
 });
+
+describe('Testa quando não deleta uma venda', () => {
+
+  describe('Quando não é informado um id válido', () => {
+    before(() => {
+      sinon.stub(saleModel, 'deleteSale').resolves(null);
+    });
+
+    after(() => {
+      saleModel.deleteSale.restore();
+    });
+    it('retorna null', async () => {
+      const result = await saleService.deleteSale(10);
+
+      expect(result).to.be.equal(null);
+    });
+  });
+});
+
+describe('Testa quando deleta uma venda', () => {
+
+  describe('Quando é informado um id válido', () => {
+    before(() => {
+      sinon.stub(saleModel, 'deleteSale').resolves(1);
+    });
+
+    after(() => {
+      saleModel.deleteSale.restore();
+    });
+    it('retorna o valor da chave affectedRows', async () => {
+      const result = await saleService.deleteSale(3);
+
+      expect(result).to.be.equal(1);
+    });
+  });
+});

@@ -74,16 +74,16 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/sales",
-    "url": "http://localhost:3000/sales/2",
+    "url": "http://localhost:3000/sales/4",
     "method": "GET",
     "sortNum": 0,
     "created": "2022-07-04T17:51:54.770Z",
-    "modified": "2022-07-06T19:38:43.840Z",
+    "modified": "2022-07-06T21:15:06.877Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "  [\n    {\n      \"productId\": 3,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 2,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 3,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 20,\n      \"quantity\":1\n    }\n  ]",
+      "raw": "  [\n    {\n      \"productId\": 3,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 2,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 3,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 1,\n      \"quantity\":1\n    }\n  ]",
       "form": []
     },
     "tests": []
