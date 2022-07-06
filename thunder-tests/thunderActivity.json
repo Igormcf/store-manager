@@ -78,12 +78,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-07-04T17:51:54.770Z",
-    "modified": "2022-07-04T22:07:03.461Z",
+    "modified": "2022-07-06T01:34:57.789Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "  [\n    {\n      \"productId\": 25,\n      \"quantity\":1\n    }\n  ]",
+      "raw": "  [\n    {\n      \"productId\": 3,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 2,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 3,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 20,\n      \"quantity\":1\n    }\n  ]",
       "form": []
     },
     "tests": []

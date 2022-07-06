@@ -3,30 +3,40 @@ const productModel = require('../models/productsModels');
 
 const createSales = async (saleProduct) => {
   const listProductsIds = saleProduct.map((item) => item.productId);
-  console.log(listProductsIds, 'array ids');
-  await Promise.all(listProductsIds.map(async (item) => {
-    const getId = await productModel.getProductId(item);
-    console.log(getId, 'getId');
-    if (getId.length === 0) {
-      const error = new Error('Product not found');
-      error.code = 'notFound';
-      error.status = 404;
-      throw error;
-    }
+  const getId = await listProductsIds.map(async (item) => productModel.getProductId(item));
+  const newId = await Promise.all(getId);
+  const findArraNull = newId.some((item) => item.length === 0);
+  
+  if (findArraNull) {
+    return { statusCode: 404, result: { message: 'Product not found' } };
+  }
+
+  const saleId = await salesModel.createSaleId();
+ 
+  await Promise.all(saleProduct.map(async (item) => {
+    await salesModel.createSaleProduct(saleId, item);
   }));
 
-  const result = await salesModel.createSaleProduct(saleProduct);
-  
-  return result;
+  return { statusCode: 201, result: { id: saleId, itemsSold: saleProduct } };
 };
-
-/* const getSaleId = async (id) => {
-  const saleId = await salesModel.getSaleId(id);
-
-  return saleId;
-}; */
 
 module.exports = {
   createSales,
-  /* getSaleId, */
 };
+
+/* if (newId.length === 0) {
+    const error = new Error('Product not found');
+    error.code = 'notFound';
+    error.status = 404;
+    throw error;
+  }  */
+/* await Promise.all(listProductsIds.map(async (item) => {
+const getId = await productModel.getProductId(item);
+ 
+if (getId.length === 0) {
+  const error = new Error('Product not found');
+  error.code = 'notFound';
+  error.status = 404;
+  throw error;
+}
+})); */
