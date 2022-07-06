@@ -69,3 +69,101 @@ describe('Testa a função createSales', () => {
     });
   });
 });
+
+describe('Busca todas as vendas no BD', () => {
+
+  describe('Quando não existem vendas', () => {
+    before(() => {
+      const resultExecute = [];
+
+      sinon.stub(saleModel, 'getAllSales').resolves(resultExecute);
+    });
+
+    after(() => {
+      saleModel.getAllSales.restore();
+    });
+
+    it('retorna um array', async () => {
+      const result = await saleService.getSales();
+
+      expect(result).to.be.a('array');
+    });
+
+    it('o array está vazio', async () => {
+      const result = await saleService.getSales();
+
+      expect(result).to.be.empty;
+    });
+  });
+
+  describe('Quando existem vendas', () => {
+    before(() => {
+      const resultExecute = [
+        {
+          "saleId": 1,
+          "date": "2022-07-06T18:55:24.000Z",
+          "productId": 1,
+          "quantity": 5
+        },
+        {
+          "saleId": 1,
+          "date": "2022-07-06T18:55:24.000Z",
+          "productId": 2,
+          "quantity": 10
+        }
+      ];
+
+      sinon.stub(saleModel, 'getAllSales').resolves(resultExecute);
+    });
+
+    after(() => {
+      saleModel.getAllSales.restore();
+    });
+
+    it('retorna um array', async () => {
+      const result = await saleService.getSales();
+
+      expect(result).to.be.a('array');
+    });
+
+    it('o array está vazio', async () => {
+      const result = await saleService.getSales();
+
+      expect(result).to.be.not.empty;
+    });
+
+  });
+});
+
+describe('Procura uma venda pelo id', () => {
+
+  describe('quando um id é informado', () => {
+
+    before(() => {
+      const resultExecute = {
+        "date": "2022-07-06T18:55:24.000Z",
+        "productId": 3,
+        "quantity": 15
+      };
+
+      sinon.stub(saleModel, 'getSaleId').resolves(resultExecute);
+    });
+
+    after(() => {
+      saleModel.getSaleId.restore();
+    });
+
+    it('Retorna um objeto', async () => {
+      const result = await saleService.getSales(2);
+
+      expect(result).to.be.a('object');
+    });
+
+    it('O array não está vazio', async () => {
+      const result = await saleService.getSales(2);
+
+      expect(result).to.be.not.empty;
+    });
+
+  });
+});

@@ -69,3 +69,109 @@ describe('Adiciona uma nova venda no DB', () => {
     
   });
 });
+
+describe('Busca todas as vendas no BD', () => {
+
+  describe('Quando não existem vendas', () => {
+
+    before(() => {
+      const resultExecute = [[]];
+
+      sinon.stub(connection, 'execute').resolves(resultExecute);
+    });
+
+    after(() => {
+      connection.execute.restore();
+    });
+
+    it('retorna um array', async () => {
+      const result = await saleModel.getAllSales();
+
+      expect(result).to.be.a('array');
+    });
+
+    it('o array está vazio', async () => {
+      const result = await saleModel.getAllSales();
+
+      expect(result).to.be.empty;
+    });
+  });
+
+  describe('Quando existem vendas', () => {
+    before(() => {
+      const result = [
+        {
+          "saleId": 1,
+          "date": "2022-07-06T18:55:24.000Z",
+          "productId": 1,
+          "quantity": 5
+        },
+        {
+          "saleId": 1,
+          "date": "2022-07-06T18:55:24.000Z",
+          "productId": 2,
+          "quantity": 10
+        }
+      ];
+
+      sinon.stub(connection, 'execute').resolves(result);
+    });
+
+    after(() => {
+      connection.execute.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const result = await saleModel.getAllSales();
+
+      expect(result).to.be.a('object');
+    });
+
+    it('o objeto não está vazio', async () => {
+      const result = await saleModel.getAllSales();
+
+      expect(result).to.be.not.empty;
+    });
+  });
+});
+
+describe('Procura uma venda pelo id', () => {
+
+  before(() => {
+    const resultExecute = [
+      {
+        "date": "2022-07-06T18:55:24.000Z",
+        "productId": 3,
+        "quantity": 15
+      }
+    ];
+
+    sinon.stub(connection, 'execute').resolves([resultExecute[0]]);
+  });
+
+  after(() => {
+    connection.execute.restore();
+  });
+
+  describe('quando um id informado', () => {
+
+    it('retorna um obejto', async () => {
+      const result = await saleModel.getSaleId(2);
+
+      expect(result).to.be.a('object');
+    });
+
+    it('o objeto não está vazio', async () => {
+      const result = await saleModel.getSaleId(2);
+
+      expect(result).to.be.not.empty;
+    });
+
+    it('o objeto retorna as chaves de uma venda', async () => {
+      const result = await saleModel.getSaleId(2);
+
+      expect(result).to.include.all.keys("date", "productId", "quantity");
+    });
+
+  });
+});

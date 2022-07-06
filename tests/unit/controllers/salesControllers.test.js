@@ -74,3 +74,147 @@ describe('Testa a função createSales', () => {
     });
   });
 });
+
+describe('Busca as vendas no BD', () => {
+
+  describe('Quando não existem vendas', async () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      response.status = sinon.stub().returns(response);;
+      response.json = sinon.stub().returns();
+
+      sinon.stub(saleService, 'getSales').resolves([]);
+    });
+
+    after(() => {
+      saleService.getSales.restore();
+    });
+
+    it('é chamado o método "status" passando o código 404', async () => {
+      await saleController.getAllSales(request, response);
+
+      expect(response.status.calledWith(404)).to.be.equal(true);
+    });
+
+    it('é chamado o método "json" passando um objeto', async () => {
+      await saleController.getAllSales(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+
+  });
+
+  describe('Quando existem vendas', () => {
+    const request = {};
+    const response = {};
+    const result = [
+      {
+        "saleId": 1,
+        "date": "2022-07-06T18:55:24.000Z",
+        "productId": 1,
+        "quantity": 5
+      },
+      {
+        "saleId": 1,
+        "date": "2022-07-06T18:55:24.000Z",
+        "productId": 2,
+        "quantity": 10
+      }
+    ];
+
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(saleService, 'getSales').resolves(result);
+    });
+
+    after(() => {
+      saleService.getSales.restore();
+    });
+
+    it('é chamado o método "status" passando o código 200', async () => {
+      await saleController.getAllSales(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método "json" passando um objeto', async () => {
+      await saleController.getAllSales(request, response);
+
+      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+    });
+
+  });
+
+  describe('Procura um produto pelo id', () => {
+
+    describe('quando o id informado não é encontrado', async () => {
+      const request = {};
+      const response = {};
+
+      before(() => {
+        request.params = { id: 2 };
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(saleService, 'getSales').resolves([]);
+      });
+
+      after(() => {
+        saleService.getSales.restore();
+      });
+
+      it('é chamado o método "status" passando o código 404', async () => {
+        await saleController.getSaleId(request, response);
+
+        expect(response.status.calledWith(404)).to.be.equal(true);
+      });
+
+      it('é chamado o método "json" passando um objeto', async () => {
+        await saleController.getSaleId(request, response);
+
+        expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+      });
+
+    });
+
+    describe('quando o id informado é encontrado', async () => {
+      const request = {};
+      const response = {};
+      const result = [{
+        "date": "2022-07-06T18:55:24.000Z",
+        "productId": 3,
+        "quantity": 15
+      }];
+
+      before(() => {
+        request.params = { id: 1 };
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(saleService, 'getSales').resolves([result]);
+      });
+
+      after(() => {
+        saleService.getSales.restore();
+      });
+
+      it('é chamado o método "status" passando o código 200', async () => {
+        await saleController.getSaleId(request, response);
+
+        expect(response.status.calledWith(200)).to.be.equal(true);
+      });
+
+      it('é chamado o método "json" passando um array', async () => {
+        await saleController.getSaleId(request, response);
+
+        expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+      });
+
+    });
+
+  });
+});

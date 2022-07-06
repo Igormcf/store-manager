@@ -20,23 +20,19 @@ const createSales = async (saleProduct) => {
   return { statusCode: 201, result: { id: saleId, itemsSold: saleProduct } };
 };
 
-module.exports = {
-  createSales,
+const getSales = async (id = null) => {
+  if (id) {
+    const saleForId = await salesModel.getSaleId(id);
+
+    return saleForId;
+  } 
+
+  const allSales = await salesModel.getAllSales();
+  
+  return allSales;
 };
 
-/* if (newId.length === 0) {
-    const error = new Error('Product not found');
-    error.code = 'notFound';
-    error.status = 404;
-    throw error;
-  }  */
-/* await Promise.all(listProductsIds.map(async (item) => {
-const getId = await productModel.getProductId(item);
- 
-if (getId.length === 0) {
-  const error = new Error('Product not found');
-  error.code = 'notFound';
-  error.status = 404;
-  throw error;
-}
-})); */
+module.exports = {
+  createSales,
+  getSales,
+};
