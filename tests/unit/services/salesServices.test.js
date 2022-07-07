@@ -270,16 +270,5 @@ describe('Testa a função updateSale', () => {
 
       expect(result).to.be.a('object');
     });
-
-    it('O objeto tem a chave statusCode com 404', async () => {
-      const result = await saleService.updateSale(1, [
-        {
-          "productId": 10,
-          "quantity": 22
-        }
-      ]);
-
-      expect(result.statusCode).to.be.equal(404);
-    });
   });
 });
