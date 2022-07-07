@@ -23,7 +23,7 @@ describe('Adiciona uma nova venda no DB', () => {
 
     it('Se retorna um id', async () => {
       const result = await saleModel.createSaleId();
-      console.log(result, 'teste');
+   
       expect(result).to.be.equal(6);
     });
   });

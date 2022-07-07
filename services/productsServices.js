@@ -42,7 +42,7 @@ const deletProduct = async (id) => {
 
 const getQuery = async (query) => {
   const result = await productsModel.getQuery(query);
-  console.log(result, 'result, query service');
+
   return result;
 };
 
