@@ -203,3 +203,77 @@ describe('Testa quando deleta uma venda', () => {
     });
   });
 });
+
+describe('Testa a função updateSale', () => {
+
+  describe('Quando é informado um payload válido', () => {
+    before(() => {
+      sinon.stub(saleModel, 'updateSale').resolves([{
+        fieldCount: 0,
+        affectedRows: 1,
+        insertId: 0,
+        info: '',
+        serverStatus: 2,
+        warningStatus: 0
+      }]);
+    });
+
+    after(() => {
+      saleModel.updateSale.restore();
+    });
+
+    it('Retorna um objeto', async () => {
+      const result = await saleService.updateSale(1, [
+        {
+          "productId": 1,
+          "quantity": 22
+        }
+      ]);
+
+      expect(result).to.be.a('object');
+    });
+
+    it('O objeto contém as chaves statusCode e result', async () => {
+      const result = await saleService.updateSale(1, [
+        {
+          "productId": 1,
+          "quantity": 22
+        }
+      ]);
+
+      expect(result).to.includes.all.keys('statusCode', 'result');
+    });
+  });
+
+  describe('Quando é informado um payload inválido', () => {
+    before(() => {
+      sinon.stub(saleModel, 'updateSale').resolves([]);
+    });
+
+    after(() => {
+      saleModel.updateSale.restore();
+    });
+
+    it('Retorna um objeto', async () => {
+      const result = await saleService.updateSale(1, [
+        {
+          "productId": 10,
+          "quantity": 22
+        }
+      ]);
+
+      expect(result).to.be.a('object');
+    });
+
+    it('O objeto tem a chave statusCode com 404', async () => {
+      const result = await saleService.updateSale(1, [
+        {
+          "productId": 10,
+          "quantity": 22
+        }
+      ]);
+
+      expect(result.statusCode).to.be.equal(404);
+    });
+  });
+});

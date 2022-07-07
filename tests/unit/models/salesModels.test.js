@@ -196,7 +196,7 @@ describe('Testa quando não deleta uma venda', () => {
   });
 });
 
-describe('Testa quando deleta um produto', () => {
+describe('Testa quando deleta uma venda', () => {
 
   before(() => {
     sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
@@ -212,6 +212,50 @@ describe('Testa quando deleta um produto', () => {
       const result = await saleModel.deleteSale(2);
 
       expect(result).to.be.equal(1);
+    });
+  });
+});
+
+describe('Testa quando edita uma venda', () => {
+
+  before(() => {
+    sinon.stub(connection, 'execute').resolves([{
+      fieldCount: 0,
+      affectedRows: 1,
+      insertId: 0,
+      info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+      serverStatus: 2,
+      warningStatus: 0,
+      changedRows: 1
+    }]);
+  });
+
+  after(() => {
+    connection.execute.restore();
+  });
+
+  describe('Quando é informado um payload válido', () => {
+
+    it('retorna um objeto', async () => {
+      const result = await saleModel.updateSale(1, [
+        {
+          "productId": 1,
+          "quantity": 22
+        }
+      ]);
+
+      expect(result).to.be.a('object');
+    });
+
+    it('O objeto possui a chave info', async () => {
+      const result = await saleModel.updateSale(1, [
+        {
+          "productId": 1,
+          "quantity": 2222
+        }
+      ]);
+
+      expect(result).to.have.deep.property('info', 'Rows matched: 1  Changed: 1  Warnings: 0');
     });
   });
 });

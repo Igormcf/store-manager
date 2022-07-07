@@ -177,7 +177,7 @@ describe('Testa quando edita um produto', () => {
     connection.execute.restore();
   });
 
-  describe('Quando não é informado um nome válido', () => {
+  describe('Quando é informado um nome válido', () => {
 
     it('Não retorna undefined', async () => {
       const result = await productsModel.updateProduct(1, "naruto");

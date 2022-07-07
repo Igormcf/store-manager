@@ -2,7 +2,7 @@ const salesService = require('../services/salesServices');
 
 const createSales = async (req, res) => {
   const { statusCode, result } = await salesService.createSales(req.body);
-  console.log(await salesService.createSales(req.body));
+
   return res.status(statusCode).json(result);
 };
 
@@ -42,9 +42,24 @@ const deleteSale = async (req, res) => {
   return res.status(204).end();
 };
 
+const updateSale = async (req, res) => {
+  const { id } = req.params;
+
+  const findSale = await salesService.getSales(id);
+
+  if (findSale.length === 0) {
+    return res.status(404).json({ message: 'Sale not found' });
+  }
+
+  const { statusCode, result } = await salesService.updateSale(id, req.body);
+
+  return res.status(statusCode).json(result);
+};
+
 module.exports = {
   createSales,
   getAllSales,
   getSaleId,
   deleteSale,
+  updateSale,
 };

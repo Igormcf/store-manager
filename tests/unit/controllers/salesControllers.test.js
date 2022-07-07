@@ -275,3 +275,77 @@ describe('Testa quando deleta uma venda', () => {
     });
   });
 });
+
+describe('Testa a função updateSale', () => {
+
+  describe('Quando informa um payload inválido', () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.params = { id: 10 };
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(saleService, 'updateSale').resolves({
+        statusCode: 404,
+        result: { message: 'Product not found' },
+      });
+    });
+
+    after(() => {
+      saleService.updateSale.restore();
+    });
+
+    it('é chamado o método "status" passando o código 404', async () => {
+      await saleController.updateSale(request, response);
+
+      expect(response.status.calledWith(404)).to.be.equal(true);
+    });
+
+    it('é chamado o método "json" passando um objeto', async () => {
+      await saleController.updateSale(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+  });
+
+  describe('Quando informa um payload válido', () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.params = { id: 1 };
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(saleService, 'updateSale').resolves({
+        statusCode: 200,
+        result: {
+          saleId: 1 , itemsUpdated: [
+            {
+              "productId": 2,
+              "quantity": 1
+            }
+          ]
+        },
+      });
+    });
+
+    after(() => {
+      saleService.updateSale.restore();
+    });
+
+    it('é chamado o método "status" passando o código 200', async () => {
+      await saleController.updateSale(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método "json" passando um objeto', async () => {
+      await saleController.updateSale(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+  });
+});
