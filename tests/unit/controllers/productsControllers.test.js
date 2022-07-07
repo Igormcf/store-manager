@@ -306,3 +306,64 @@ describe('Testa quando deleta um produto', () => {
     });
   });
 });
+
+describe('Testa a função getQuery', () => {
+  const request = {};
+  const response = {};
+
+  describe('Quando não é informado uma query', () => {
+
+    before(() => {
+      sinon.stub(productsService, 'getProducts').resolves([
+        { id: 1, name: 'Martelo de Thor' },
+        { id: 2, name: 'Traje de encolhimento' },
+        { id: 3, name: 'Escudo do Capitão América' }
+      ]);
+      request.query = { q: '' };
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+    after(() => {
+      productsService.getProducts.restore();
+    });
+
+    it('é chamado o método "status" passando o código 200', async () => {
+      await productsController.getQuery(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método "json" passando um array', async () => {
+      await productsController.getQuery(request, response);
+
+      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+    });
+  });
+
+  describe('Quando é informado uma query', () => {
+
+    before(() => {
+      sinon.stub(productsService, 'getQuery').resolves([{ id: 1, name: 'Martelo de Thor' }]);
+      request.query = { q: 'Martelo' };
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+    after(() => {
+      productsService.getQuery.restore();
+    });
+
+    it('é chamado o método "status" passando o código 200', async () => {
+      await productsController.getQuery(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método "json" passando um array', async () => {
+      await productsController.getQuery(request, response);
+
+      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+    });
+  });
+});

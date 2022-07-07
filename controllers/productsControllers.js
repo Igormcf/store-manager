@@ -60,10 +60,25 @@ const deletProduct = async (req, res) => {
   return res.status(204).end();
 };
 
+const getQuery = async (req, res) => {
+  const { q } = req.query;
+
+  if (!q) {
+    const result = await productsService.getProducts();
+    console.log(result, 'result !q');
+    return res.status(200).json(result);
+  }
+
+  const response = await productsService.getQuery(q);
+
+  return res.status(200).json(response);
+};
+
 module.exports = {
   getAllProducts,
   getProductId,
   createProduct,
   updateProduct,
   deletProduct,
+  getQuery,
 };

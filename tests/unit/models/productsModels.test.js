@@ -232,3 +232,55 @@ describe('Testa quando deleta um produto', () => {
     });
   });
 });
+
+describe('Testa a função getQuery', () => {
+  describe('Quando informa uma query inexistente', () => {
+
+    before(() => {
+      sinon.stub(connection, 'execute').resolves([[]]);
+    });
+
+    after(() => {
+      connection.execute.restore();
+    });
+
+    it('Retorna um array', async () => {
+      const q = 'z';
+      const result = await productsModel.getQuery(q);
+
+      expect(result).to.be.a('array');
+    });
+
+    it('O array está vazio', async () => {
+      const q = '';
+      const result = await productsModel.getQuery(q);
+
+      expect(result).to.be.empty;
+    });
+  });
+
+  describe('Quando informa uma query', () => {
+
+    before(() => {
+      sinon.stub(connection, 'execute').resolves([{ id: 1, name: 'Martelo de Thor' }]);
+    });
+
+    after(() => {
+      connection.execute.restore();
+    });
+    
+    it('Retorna um objeto', async () => {
+      const q = '';
+      const result = await productsModel.getQuery(q);
+
+      expect(result).to.be.a('object');
+    });
+
+    it('O objeto contém as informações do produto', async () => {
+      const q = '';
+      const result = await productsModel.getQuery(q);
+
+      expect(result).to.includes.all.keys('id', 'name');
+    });
+  });
+});

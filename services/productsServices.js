@@ -40,9 +40,16 @@ const deletProduct = async (id) => {
   return result;
 };
 
+const getQuery = async (query) => {
+  const result = await productsModel.getQuery(query);
+  console.log(result, 'result, query service');
+  return result;
+};
+
 module.exports = {
   getProducts,
   createProduct,
   updateProduct,
   deletProduct,
+  getQuery,
 };

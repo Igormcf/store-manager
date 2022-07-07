@@ -8,6 +8,8 @@ const validMiddleWare = require('../middlewares/validJoi');
 
 const productsController = require('../controllers/productsControllers');
 
+router.get('/search', rescue(productsController.getQuery));
+
 router.get('/', rescue(productsController.getAllProducts));
 
 router.get('/:id', rescue(productsController.getProductId));
