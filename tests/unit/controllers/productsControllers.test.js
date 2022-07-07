@@ -186,6 +186,7 @@ describe('Testa os retornos da função updateProduct', () => {
     const response = {};
 
     before(() => {
+      sinon.stub(productsService, 'getProducts').resolves([]);
       request.params = { id: 10 };
       request.body = { "name": "naruto" };
       response.status = sinon.stub().returns(response);
@@ -195,6 +196,7 @@ describe('Testa os retornos da função updateProduct', () => {
     });
 
     after(() => {
+      productsService.getProducts.restore();
       productsService.updateProduct.restore();
     });
 
@@ -216,6 +218,7 @@ describe('Testa os retornos da função updateProduct', () => {
     const response = {};
 
     before(() => {
+      sinon.stub(productsService, 'getProducts').resolves([{ id: 1, name: 'Martelo de Thor' }]);
       request.params = { id: 1 };
       request.body = { "name": "naruto" };
       response.status = sinon.stub().returns(response);
@@ -225,6 +228,7 @@ describe('Testa os retornos da função updateProduct', () => {
     });
 
     after(() => {
+      productsService.getProducts.restore();
       productsService.updateProduct.restore();
     });
 
@@ -249,6 +253,7 @@ describe('Testa quando não deleta um produto', () => {
     const response = {};
 
     before(() => {
+      sinon.stub(productsService, 'getProducts').resolves([]);
       request.params = { id: 10 };
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
@@ -257,6 +262,7 @@ describe('Testa quando não deleta um produto', () => {
     });
 
     after(() => {
+      productsService.getProducts.restore();
       productsService.deletProduct.restore();
     });
 
@@ -281,6 +287,7 @@ describe('Testa quando deleta um produto', () => {
     const response = {};
 
     before(() => {
+      sinon.stub(productsService, 'getProducts').resolves([{ id: 1, name: 'Martelo de Thor' }]);
       request.params = { id: 1 };
       response.status = sinon.stub().returns(response);
       response.end = sinon.stub();
@@ -288,6 +295,7 @@ describe('Testa quando deleta um produto', () => {
     });
 
     after(() => {
+      productsService.getProducts.restore();
       productsService.deletProduct.restore();
     });
 

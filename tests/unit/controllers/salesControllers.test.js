@@ -226,6 +226,7 @@ describe('Testa quando não deleta uma venda', () => {
     const response = {};
 
     before(() => {
+      sinon.stub(saleService, 'getSales').resolves([]);
       request.params = { id: 10 };
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
@@ -234,6 +235,7 @@ describe('Testa quando não deleta uma venda', () => {
     });
 
     after(() => {
+      saleService.getSales.restore();
       saleService.deleteSale.restore();
     });
 
@@ -258,13 +260,15 @@ describe('Testa quando deleta uma venda', () => {
     const response = {};
 
     before(() => {
-      request.params = { id: 1 };
+      sinon.stub(saleService, 'getSales').resolves([{ date: '2022 - 07 - 07T01: 43: 28.000Z', productId: 3, quantity: 15 }]);
+      request.params = { id: 2 };
       response.status = sinon.stub().returns(response);
       response.end = sinon.stub();
-      sinon.stub(saleService, 'deleteSale').resolves(1);
+      sinon.stub(saleService, 'deleteSale').resolves(2);
     });
 
     after(() => {
+      saleService.getSales.restore();
       saleService.deleteSale.restore();
     });
 
@@ -283,6 +287,7 @@ describe('Testa a função updateSale', () => {
     const response = {};
 
     before(() => {
+      sinon.stub(saleService, 'getSales').resolves([]);
       request.params = { id: 10 };
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
@@ -294,6 +299,7 @@ describe('Testa a função updateSale', () => {
     });
 
     after(() => {
+      saleService.getSales.restore();
       saleService.updateSale.restore();
     });
 
@@ -315,6 +321,7 @@ describe('Testa a função updateSale', () => {
     const response = {};
 
     before(() => {
+      sinon.stub(saleService, 'getSales').resolves([{ date: '2022 - 07 - 07T01: 48: 35.000Z', productId: 3, quantity: 15 }]);
       request.params = { id: 1 };
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
@@ -333,6 +340,7 @@ describe('Testa a função updateSale', () => {
     });
 
     after(() => {
+      saleService.getSales.restore();
       saleService.updateSale.restore();
     });
 

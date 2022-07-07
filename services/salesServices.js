@@ -5,6 +5,7 @@ const createSales = async (saleProduct) => {
   const listProductsIds = saleProduct.map((item) => item.productId);
   const getId = await listProductsIds.map(async (item) => productModel.getProductId(item));
   const newId = await Promise.all(getId);
+
   const findArraNull = newId.some((item) => item.length === 0);
   
   if (findArraNull) {
@@ -44,6 +45,7 @@ const updateSale = async (saleId, saleProduct) => {
   const listProductsIds = saleProduct.map((item) => item.productId);
   const getId = await listProductsIds.map(async (item) => productModel.getProductId(item));
   const newId = await Promise.all(getId);
+  
   const findArraNull = newId.some((item) => item.length === 0);
 
   if (findArraNull) {

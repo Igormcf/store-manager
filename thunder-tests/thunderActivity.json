@@ -74,16 +74,16 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/sales",
-    "url": "http://localhost:3000/sales/1",
-    "method": "PUT",
+    "url": "http://localhost:3000/products/1",
+    "method": "DELETE",
     "sortNum": 0,
     "created": "2022-07-04T17:51:54.770Z",
-    "modified": "2022-07-06T23:51:43.759Z",
+    "modified": "2022-07-07T02:00:28.303Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "  [\n    {\n      \"productId\": 1,\n      \"quantity\": 223\n    }\n  ]",
+      "raw": "  {\n    \"name\": \"naruto\"\n  }",
       "form": []
     },
     "tests": []

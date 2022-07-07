@@ -9,6 +9,7 @@ describe('Testa a função createSales', () => {
   describe('Quando é informado um productId válido', () => {
 
     before(() => {
+      sinon.stub(productModel, 'getProductId').resolves([[{ id: 1, name: 'Martelo de Thor' }]]);
       sinon.stub(saleModel, 'createSaleId').resolves(4)
       sinon.stub(saleModel, 'createSaleProduct').resolves([{
         fieldCount: 0,
@@ -21,6 +22,7 @@ describe('Testa a função createSales', () => {
     });
 
     after(() => {
+      productModel.getProductId.restore();
       saleModel.createSaleId.restore();
       saleModel.createSaleProduct.restore();
     });
@@ -208,6 +210,7 @@ describe('Testa a função updateSale', () => {
 
   describe('Quando é informado um payload válido', () => {
     before(() => {
+      sinon.stub(productModel, 'getProductId').resolves([[{ id: 1, name: 'Martelo de Thor' }]]);
       sinon.stub(saleModel, 'updateSale').resolves([{
         fieldCount: 0,
         affectedRows: 1,
@@ -219,6 +222,7 @@ describe('Testa a função updateSale', () => {
     });
 
     after(() => {
+      productModel.getProductId.restore();
       saleModel.updateSale.restore();
     });
 
@@ -247,10 +251,12 @@ describe('Testa a função updateSale', () => {
 
   describe('Quando é informado um payload inválido', () => {
     before(() => {
+      sinon.stub(productModel, 'getProductId').resolves([[]]);
       sinon.stub(saleModel, 'updateSale').resolves([]);
     });
 
     after(() => {
+      productModel.getProductId.restore();
       saleModel.updateSale.restore();
     });
 

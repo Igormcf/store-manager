@@ -32,7 +32,7 @@ const deleteSale = async (req, res) => {
   const { id } = req.params;
 
   const findProduct = await salesService.getSales(id);
-
+  
   if (findProduct.length === 0) {
     return res.status(404).json({ message: 'Sale not found' });
   }
@@ -46,7 +46,7 @@ const updateSale = async (req, res) => {
   const { id } = req.params;
 
   const findSale = await salesService.getSales(id);
-
+ 
   if (findSale.length === 0) {
     return res.status(404).json({ message: 'Sale not found' });
   }
