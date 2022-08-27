@@ -33,3 +33,37 @@ Neste projeto desenvolvi uma API RESTful, com `Node.js` e `Express`, utilizando 
   - O script de criação do banco de dados pode ser visto [aqui](migration.sql);
   - O script que popula o banco de dados pode ser visto [aqui](seed.sql);
 </details>
+
+<details>
+  <summary><strong>Scripts prontos</strong></summary><br />
+  
+ - Para criar o banco de dados e gerar as tabelas:
+  ```sh
+    npm run migration
+  ```
+
+  - Para limpar e popular o banco de dados:
+  ```sh
+    npm run seed
+  ```
+
+  - Para iniciar o servidor Node:
+  ```sh
+    npm start
+  ```
+
+  - Para iniciar o servidor Node com nodemon:
+  ```sh
+    npm run debug
+  ```
+
+  - Para executar os testes de unidade:
+  ```sh
+    npm run test:mocha
+  ```
+
+  - Para executar o linter:
+  ```sh
+    npm run lint
+  ```
+</details>
